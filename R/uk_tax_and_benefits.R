@@ -1,14 +1,16 @@
-# This file creates a set of functions representing the key components of the UK 
-# Tax and Benefit System in 2017/2018. It is not supposed to create 
-# a set of calculators covering every eventuality, but a set that can be used 
+# This file creates a set of functions representing the key components of the UK
+# Tax and Benefit System in 2017/2018. It is not supposed to create
+# a set of calculators covering every eventuality, but a set that can be used
 # to illustrate discussions of the tax and benefit system.
+
+# TODO Consider refactoring into a set of seperate classes?
 
 library(R6)
 
 #' The Personal Allowance Class
 #'
 #' This class describes the personal allowance that a person has in the UK tax system.
-#' In the UK the personal allowance is how much you can earn tax free. However the allowance is 
+#' In the UK the personal allowance is how much you can earn tax free. However the allowance is
 #' withdrawn at the give rate over the threshold
 #' Note this is a simplification of the actual UK tax system.
 #' @field allowance The amount of the allowance.
@@ -216,7 +218,7 @@ NationalInsurance <-R6Class("NationalInsurance",
     #' initialize()
     initialize = function (
         employeeThreshold = NA,
-        employeeRate = NA, 
+        employeeRate = NA,
         employerThreshold = NA,
         employerRate = NA){
       self$employee <- VariableRateTax$new(employeeThreshold,employeeRate)
@@ -294,7 +296,7 @@ UniversalCredit <-R6Class("UniversalCredit",
     #' amount()
     amount = function(earnedIncome,unearnedIncome=0){
       max(0,
-          self$baseAmount - 
+          self$baseAmount -
             max(0,(earnedIncome - self$workAllowance))*self$earnedTaper -
             (unearnedIncome*self$unearnedTaper))
     }
@@ -377,17 +379,17 @@ TaxAndBenefits <-R6Class("TaxAndBenefits",
       initialIncome <- seq(from,to,by)
       personalAllowance <- sapply(initialIncome,self$incomeTax$personalAllowance$amount)
       incomeTax <- sapply(initialIncome,self$incomeTax$amount)
-      employeesNationalInsurance <- 
+      employeesNationalInsurance <-
         sapply(initialIncome,self$nationalInsurance$employee$amount)
-      employersNationalInsurance <- 
+      employersNationalInsurance <-
         sapply(initialIncome,self$nationalInsurance$employer$amount)
-      universalCreditEarned <- 
+      universalCreditEarned <-
         sapply(initialIncome,self$universalCredit$amount)
-      universalCreditUnearned <- 
+      universalCreditUnearned <-
         sapply(initialIncome,function(income){self$universalCredit$amount(0,income)})
-      finalIncomeEarned <- 
+      finalIncomeEarned <-
         sapply(initialIncome,self$amount)
-      finalIncomeUnearned  <- 
+      finalIncomeUnearned  <-
         sapply(initialIncome,function(income){self$amount(0,income)})
       data.frame(initialIncome,
                  personalAllowance,

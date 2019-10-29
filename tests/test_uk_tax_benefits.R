@@ -1,23 +1,11 @@
 # Unit tests for the functions in the file UKTaxAndBenefits2017to2018.r
 
-source("src/main/r/UKTaxAndBenefits.r")
+source("R/uk_tax_and_benefits.r")
 
 library(testthat)
 
 context('Testing UK Tax and Benefit functions 2017 to 2018')
 
-test_that('PersonalAllowance$amount method produce expected values',{
-  
-  expect_equal(personalAllowance2017$amount(100000),11500)
-  expect_equal(personalAllowance2017$amount(100002),11499)
-  expect_equal(personalAllowance2017$amount(100004),11498)
-  expect_equal(personalAllowance2017$amount(123000),0)
-
-  expect_equal(personalAllowance2015$amount(100000),10600)
-  expect_equal(personalAllowance2015$amount(100002),10599)
-  expect_equal(personalAllowance2015$amount(100004),10598)
-  expect_equal(personalAllowance2015$amount(123000),0)
-})
 
 test_that('Tax$amount method produces expected values',{
   expect_equal(incomeTax2017$amount(5000),0)
@@ -41,10 +29,10 @@ test_that('nationalInsurance function produces expected values',{
   upperEarningsLimit <- 45000
   primaryRate <- 0.12
   higherEarningsRate <- 0.02
-  employeeNIFor12000In2017 <- 
+  employeeNIFor12000In2017 <-
     (12000-primaryThreshold)*primaryRate
-  employeeNIFor60000In2017 <- 
-    (60000-upperEarningsLimit)*higherEarningsRate + 
+  employeeNIFor60000In2017 <-
+    (60000-upperEarningsLimit)*higherEarningsRate +
     (upperEarningsLimit-primaryThreshold)*primaryRate
   #Tests
   expect_equal(nationalInsurance2017$employeeAmount(12000),employeeNIFor12000In2017)
@@ -66,7 +54,7 @@ test_that('universalCredit function produces expected values',{
   amount <- 371.8*12
   workAllowance <- 0
   earnedTaper <- 0.63
-  unearnedTaper <- 1 
+  unearnedTaper <- 1
   expect_equal(universalCredit2017$amount(0),amount)
   expect_equal(universalCredit2017$amount(1000),amount-(1000*earnedTaper))
   expect_equal(universalCredit2017$amount(amount/earnedTaper),0)
@@ -122,7 +110,7 @@ test_that('ukIncomeDataFrame function produces correct values',{
                initialIncome1 +
                  taxAndBenefits2017$universalCredit$amount(initialIncome1) -
                  taxAndBenefits2017$incomeTax$amount(initialIncome1) -
-                 taxAndBenefits2017$nationalInsurance$employee$amount(initialIncome1)) 
+                 taxAndBenefits2017$nationalInsurance$employee$amount(initialIncome1))
   expect_equal(taxAndBenefitsDf$finalIncomeUnearned[testPoint1],
                initialIncome1 +
                  taxAndBenefits2017$universalCredit$amount(0,initialIncome1)-

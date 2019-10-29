@@ -3,64 +3,10 @@
 # a set of calculators covering every eventuality, but a set that can be used
 # to illustrate discussions of the tax and benefit system.
 
-# TODO Consider refactoring into a set of seperate classes?
+# TODO Refactor into a file for each class
 
-library(R6)
+source("R/personal-allowance.r")
 
-#' The Personal Allowance Class
-#'
-#' This class describes the personal allowance that a person has in the UK tax system.
-#' In the UK the personal allowance is how much you can earn tax free. However the allowance is
-#' withdrawn at the give rate over the threshold
-#' Note this is a simplification of the actual UK tax system.
-#' @field allowance The amount of the allowance.
-#' @field threshold The income at which the allowance starts to be withdrawn
-#' @field rate The rate at which the allowance is withdrawn.
-#' @keywords uk income tax, personal allowance
-#' @export
-#' @examples
-#' Personal Allowance
-PersonalAllowance <-R6Class("PersonalAllowance",
-  public = list(
-    base = NULL,
-    threshold = NULL,
-    withdrawalRate = NULL,
-    initialize = function (base = NA, threshold = NA, withdrawalRate = NA){
-      self$base <- base
-      self$threshold <- threshold
-      self$withdrawalRate <- withdrawalRate
-    },    #' The amount method
-    #'
-    #' This method determines how much personal alowance a person has dependant upon their income.ed
-    #' @param income The initial income of the person.
-    #' @keywords uk income tax, personal allowance
-    #' @export
-    #' @examples
-    #' amount()
-    amount = function(income){
-      if (income < self$threshold)
-        self$base
-      else
-        max(0 , self$base - floor((income-self$threshold)*self$withdrawalRate))
-    }
-  )
-)
-
-# Sourced from:
-# https://www.gov.uk/guidance/rates-and-thresholds-for-employers-2017-to-2018
-personalAllowance2017 <- PersonalAllowance$new(
-  base = 11500,
-  threshold = 100000,
-  withdrawalRate = 0.5
-)
-
-# Sourced from:
-# https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past
-personalAllowance2015 <- PersonalAllowance$new(
-  base = 10600,
-  threshold = 100000,
-  withdrawalRate = 0.5
-)
 
 #' The Income Tax Class
 #'

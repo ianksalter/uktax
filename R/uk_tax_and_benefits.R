@@ -5,81 +5,8 @@
 
 # TODO Refactor into a file for each class
 
-source("R/personal-allowance.r")
 
 
-#' The Income Tax Class
-#'
-#' This class describes the tax payable by an individual..
-#' Income up to the personal allowance is tax free. Then income is taxed at
-#' the rate in the rate vector until the corresponding threshold.
-#' Note this class makes a number of simplifications including ignoring Scotland for sake of simplicity
-#' @field personalAllowance class used to calculate tax free personal alowance based upon income.
-#' @field threshold The vector of tax thresholds, must be in ascending order.
-#' @field rate The vector of tax rates, must be same size as thresholds.
-#' @keywords uk income tax
-#' @export
-#' @examples
-#' Income Tax
-IncomeTax <-R6Class("IncomeTax",
-  public = list(
-    personalAllowance = NULL,
-    threshold = NULL,
-    rate = NULL,
-    initialize = function (personalAllowance = NA,threshold = NA, rate = NA){
-      self$personalAllowance <- personalAllowance
-      self$threshold <- threshold
-      self$rate <- rate
-    },
-    #' The Amount method
-    #'
-    #' This method determines how much income tax a single person pays depending upon their income.city
-    #' @param income The initial income of the person.
-    #' @keywords uk income tax
-    #' @export
-    #' @examples
-    #' amount()
-    amount = function(income){
-      noOfThresholds <- length(self$threshold)
-      #Input variable preconditions
-      if (noOfThresholds != length(self$rate))
-        Stop("threshold and rate vectors must be the same size")
-      if (noOfThresholds > 1 && self$threshold != sort(self$threshold))
-        Stop("threshold must be in ascending order")
-      allowance <- self$personalAllowance$amount(income)
-      level <- 1
-      tax <- 0
-      while (level < noOfThresholds){
-        lowerThreshold <- allowance + self$threshold[level]
-        upperThreshold <- allowance + self$threshold[level+1]
-        if (income > lowerThreshold){
-          tax <- tax + (min(upperThreshold,income)-lowerThreshold)*self$rate[level]
-        }
-        level <- level + 1
-      }
-      if (income > upperThreshold) {
-        tax <- tax + (income-upperThreshold)*self$rate[level]
-      }
-      tax
-    }
-  )
-)
-
-# Sourced from:
-# https://www.gov.uk/guidance/rates-and-thresholds-for-employers-2017-to-2018
-incomeTax2017 <- IncomeTax$new(
-  personalAllowance = personalAllowance2017,
-  threshold = c(0,33500,150000),
-  rate = c(0.2,0.4,0.45)
-)
-
-# Sourced from:
-# https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past
-incomeTax2015 <- IncomeTax$new(
-  personalAllowance = personalAllowance2015,
-  threshold = c(0,31785,150000),
-  rate = c(0.2,0.4,0.45)
-)
 
 #' The Variable Rate Tax class
 #'
@@ -94,7 +21,7 @@ incomeTax2015 <- IncomeTax$new(
 #' @export
 #' @examples
 #' Income Tax
-VariableRateTax <- R6Class("VariableRateTax",
+VariableRateTax <- R6::R6Class("VariableRateTax",
   public = list(
     threshold = NULL,
     rate = NULL,
@@ -149,7 +76,7 @@ VariableRateTax <- R6Class("VariableRateTax",
 #' @export
 #' @examples
 #' Income Tax
-NationalInsurance <-R6Class("NationalInsurance",
+NationalInsurance <- R6::R6Class("NationalInsurance",
   public = list(
     employee = NULL,
     employer = NULL,
@@ -221,7 +148,7 @@ nationalInsurance2015 <- NationalInsurance$new(
 #' @export
 #' @examples
 #' UniversalCredit
-UniversalCredit <-R6Class("UniversalCredit",
+UniversalCredit <- R6::R6Class("UniversalCredit",
   public = list(
     baseAmount = NULL,
     workAllowance = NULL,
@@ -281,7 +208,7 @@ universalCredit2015 <- UniversalCredit$new(
 #' @export
 #' @examples
 #' Tax and Benefits
-TaxAndBenefits <-R6Class("TaxAndBenefits",
+TaxAndBenefits <- R6::R6Class("TaxAndBenefits",
   public = list(
     incomeTax = NULL,
     nationalInsurance = NULL,

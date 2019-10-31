@@ -1,6 +1,3 @@
-# library(R6)
-# library(tidyverse)
-
 #' The Personal Allowance Class
 #'
 #' This class describes the personal allowance that a person has in the UK
@@ -11,23 +8,22 @@
 #' @field allowance The amount of the allowance.
 #' @field threshold The income at which the allowance starts to be withdrawn.
 #' @field rate The rate at which the allowance is withdrawn.
-#' @method amount Determines how much personal alowance a person has dependant
+#' @method amount Determines how much personal allowance a person has dependant
 #' upon their income.
 #' @section Methods:
 #' \describe{
-#' \item{\code{amount}}{Determines how much personal alowance a person has
+#' \item{\code{amount}}{Determines how much personal allowance a person has
 #' dependant upon their income.}
 #' }
-#' @keywords uk income tax, personal allowance
 #' @export
 #' @examples
-#' personalAllowance2017 <- PersonalAllowance$new(
+#' personal_allowance_2017 <- PersonalAllowance$new(
 #'   base = 11500,
 #'   threshold = 100000,
 #'   withdrawalRate = 0.5
 #' )
-#' personalAllowance2017$amount(101000)
-PersonalAllowance <- R6Class("PersonalAllowance",
+#' personal_allowance_2017$amount(101000)
+PersonalAllowance <- R6::R6Class("PersonalAllowance",
                             public = list(
                               base = NULL,
                               threshold = NULL,
@@ -55,7 +51,7 @@ PersonalAllowance <- R6Class("PersonalAllowance",
 # Data sourced from:
 # https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past
 personal_allowance_data <-
-  tribble(
+  tibble::tribble(
     ~year, ~base, ~threshold, ~withdrawalRate,
     #----/------/-----------/----------------
     2016, 11000, 100000, 0.5,
@@ -65,12 +61,12 @@ personal_allowance_data <-
   )
 
 personal_allowances <-
-  tibble(
-    year = personalAllowanceData$year,
-    allowance = pmap(list(personalAllowanceData$base,
-                           personalAllowanceData$threshold,
-                           personalAllowanceData$withdrawalRate),
-                      PersonalAllowance$new)
+  tibble::tibble(
+    year = personal_allowance_data$year,
+    allowance = purrr::pmap(list(personal_allowance_data$base,
+                                 personal_allowance_data$threshold,
+                                 personal_allowance_data$withdrawalRate),
+                            PersonalAllowance$new)
   )
 
 

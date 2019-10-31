@@ -7,20 +7,7 @@ library(testthat)
 context('Testing UK Tax and Benefit functions 2017 to 2018')
 
 
-test_that('Tax$amount method produces expected values',{
-  expect_equal(incomeTax2017$amount(5000),0)
-  expect_equal(incomeTax2017$amount(21500),2000)
-  # Test data from calculator here: http://iknowtax.com/2017/
-  expect_equal(incomeTax2017$amount(24000),2500)
-  expect_equal(incomeTax2017$amount(43000),6300)
-  expect_equal(incomeTax2017$amount(55000),10700)
-  expect_equal(incomeTax2017$amount(120000),40700)
-  expect_equal(incomeTax2017$amount(200000),75800)
-  expect_equal(incomeTax2017$amount(500000),210800)
-  # Test data from calculator here: http://iknowtax.com/2015/
-  expect_equal(incomeTax2015$amount(24000),2680)
-  expect_equal(incomeTax2015$amount(43000),6603)
-})
+
 
 test_that('nationalInsurance function produces expected values',{
   # Note source for the following data is:

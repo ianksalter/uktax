@@ -20,6 +20,7 @@ IncomeTax <-
             personal_allowance = NULL,
             threshold = NULL,
             rate = NULL,
+            # TODO: refactor class to create heavier constructor
             initialize = function(personal_allowance = NA,
                                   threshold = NA,
                                   rate = NA) {
@@ -46,9 +47,9 @@ IncomeTax <-
               while (level < no_of_thresholds) {
                 lower_threshold <- allowance + self$threshold[level]
                 upper_threshold <- allowance + self$threshold[level + 1]
-                if (income > upper_threshold) {
-                  tax <- tax + (min(upper_threshold, income) -
-                                  lower_threshold) * self$rate[level]
+                if (income > lower_threshold) {
+                  tax <- tax +
+                    (min(upper_threshold, income) - lower_threshold) * self$rate[level]
                 }
                 level <- level + 1
               }
@@ -78,9 +79,9 @@ income_tax <-
   tibble::tibble(
     year = income_tax_data$year,
     tax = purrr::pmap(list(personal_allowances$allowance,
-                                 income_tax_data$threshold,
-                                 income_tax_data$rate),
-                            IncomeTax$new)
+                           income_tax_data$threshold,
+                           income_tax_data$rate),
+                      IncomeTax$new)
 )
 
 # Sourced from:

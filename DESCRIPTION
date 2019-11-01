@@ -5,10 +5,11 @@ Version: 0.1.0
 Authors@R: person(c("Ian","K"), "Salter",  email = "ianksalter@gmail.com", 
   role = c("aut", "cre"))
 Description: This package creates classes for analysing the UK Tax
-    and Benefit system from 2016. As of version 0.1.0 if focuses 
-    soley on a single employed person as a simplification. The 
-    package allows the easy calculation of taxation and benifit
-    amounts based upon income.
+    and Benefit system for tax years beginning 2016 to 2019.  
+    It creates a set of calculator classes, not for every eventuality
+    but rather, to illustrate discussions of the tax and benefit system.
+    Version 0.1.0 focuses soley on a single employed person as a
+    simplification.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

@@ -1,0 +1,55 @@
+---
+title: "DataSources"
+author: "Ian Salter"
+date: "2/14/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Sources
+
+A tempory file holding links to useful data sources:
+
+### Circular Flow of Income Diagram Wikimedia Commons
+
+https://commons.wikimedia.org/w/index.php?title=Special:Search&title=Special:Search&redirs=0&search=Circular+Flow+of+Income&fulltext=Search&fulltext=Advanced+search&ns0=1&ns6=1&ns14=1&advanced=1#/media/File:CircularFlowEN-SVG.svg
+
+
+### Our world in Data - Income Inequality
+
+https://ourworldindata.org/income-inequality
+
+
+### Office for National Statistics
+
+[Household income inequality, UK: Financial year ending 2018](https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/householdincomeinequalityfinancial/yearending2018)
+
+[Effects of taxes and benefits on household income](https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/theeffectsoftaxesandbenefitsonhouseholdincomefinancialyearending2014)
+
+[Household income inequality, UK: Financial year ending 2019 (provisional)](https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/householdincomeinequalityfinancial/financialyearending2019provisional)
+
+[Effects of taxes and benefits on UK household income: financial year ending 2018](https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/theeffectsoftaxesandbenefitsonhouseholdincome/financialyearending2018)
+
+[Overview of the UK Population: August 2019](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/articles/overviewoftheukpopulation/august2019)
+
+[UK labour market: July 2018](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/bulletins/uklabourmarket/july2018)
+
+### Branco Milanovic 2013 paper to the World Bank
+
+http://documents.worldbank.org/curated/en/914431468162277879/pdf/WPS6719.pdf
+
+
+### Spanish Tax Tables 2019
+
+https://www.spenceclarke.com/wp-content/uploads/guides/spanish-tax-guide-2019.pdf
+
+### Quality of Governance roq package giving access to OECD data
+
+https://ropengov.github.io/rqog/articles/rqog_tutorial.html
+
+### ggridges Package for coluring graphs in R
+
+https://cran.r-project.org/web/packages/ggridges/vignettes/introduction.html

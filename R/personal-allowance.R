@@ -48,6 +48,7 @@ PersonalAllowance <- R6::R6Class("PersonalAllowance",
                             )
 )
 
+
 # Data sourced from:
 # https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past
 personal_allowance_data <-

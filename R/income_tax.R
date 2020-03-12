@@ -37,27 +37,51 @@ IncomeTax <-
                   self$threshold != sort(self$threshold))
                 Stop("threshold must be in ascending order")
               allowance <- self$personal_allowance$amount(income)
-              level <- 1
-              tax <- 0
-              # TODO: Think about refactoring this code so it works in
-              # functional mannar perhaps by doing much more work in
-              # initialise to create astructure easy to calculate from
-              # Maybe look at creating a data structure for, or using
-              # a tibble for thresholds and rates.
-              while (level < no_of_thresholds) {
-                lower_threshold <- allowance + self$threshold[level]
-                upper_threshold <- allowance + self$threshold[level + 1]
-                if (income > lower_threshold) {
-                  tax <- tax +
-                    (min(upper_threshold, income) - lower_threshold) * self$rate[level]
-                }
-                level <- level + 1
-              }
-              if (income > upper_threshold) {
-                tax <- tax +
-                  (income - upper_threshold) * self$rate[level]
-              }
-              tax
+
+
+              thresholdBase <- allowance * append(self$threshold, 0, 0)
+              thresholdLimit <- allowance * append(self$threshold, Inf)
+              revisedRate <- append(self$rate,0,0)
+              # ISSUE Think there is a bug here factor out into two testable functions
+              # Income (or maybe taxBuckets) Buckets - to calculate the vector of tax buckets
+              # Calculate Bucket - which calculates the tax payable for each bucket. Note this
+              # may need to be a function that produces a function based upon an income.
+              # Interesting but funcy.
+              incomeBuckets <-
+                purrr::pmap(
+                  list(
+                    thresholdBase,
+                    thresholdLimit,
+                    revisedRate
+                  ),
+                  function(base,
+                           limit,
+                           rate){
+                    if(income > base){
+                      (max(income,limit) - base) * rate
+                    } else {0}
+                  }
+                )
+              sum(incomeBuckets)
+              # TODO: Delete code below but only after we have eliminated all loops
+              # in similar code
+              # level <- 1
+              # tax <- 0
+              # while (level < no_of_thresholds) {
+              #   lower_threshold <- allowance + self$threshold[level]
+              #   upper_threshold <- allowance + self$threshold[level + 1]
+              #   if (income > lower_threshold) {
+              #     tax <- tax +
+              #       (min(upper_threshold, income) - lower_threshold) * self$rate[level]
+              #   }
+              #   level <- level + 1
+              # }
+              # if (income > upper_threshold) {
+              #   tax <- tax +
+              #     (income - upper_threshold) * self$rate[level]
+              # }
+              # tax
+              # End delete here
             }
           )
 )
